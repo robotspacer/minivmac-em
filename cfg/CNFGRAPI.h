@@ -77,4 +77,4 @@
 #define kMaintainerName "unknown"
 #define kStrHomePage "(unknown)"
 
-#define kBldOpts "-br 36 -t lx86 -sss 4 -bg 1"
+#define kBldOpts "-br 36 -t lx86 -sss 4 -bg 1 -svl 1"
