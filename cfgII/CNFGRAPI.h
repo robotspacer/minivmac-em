@@ -13,7 +13,7 @@
 #include <string.h>
 
 
-#define RomFileName "MacII.ROM"
+#define RomFileName "/emulator/roms/MacII.ROM"
 #define kCheckSumRom_Size 0x00040000
 #define kRomCheckSum1 0x9779D2C4
 #define kRomCheckSum2 0x97221136

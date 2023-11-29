@@ -13,7 +13,7 @@
 #include <string.h>
 
 
-#define RomFileName "vMac.ROM"
+#define RomFileName "/emulator/roms/vMac.ROM"
 #define kCheckSumRom_Size 0x00020000
 #define kRomCheckSum1 0x4D1EEEE1
 #define kRomCheckSum2 0x4D1EEAE1
