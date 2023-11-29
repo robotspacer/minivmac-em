@@ -27,7 +27,7 @@ endif
 
 .PHONY: TheDefaultOutput clean
 
-TheDefaultOutput : minivmac
+TheDefaultOutput : $(TARGET)
 
 bld/OSGLUSD2.o : src/OSGLUSD2.c src/STRCNENG.h cfg/STRCONST.h src/INTLCHAR.h src/COMOSGLU.h src/CONTROLM.h cfg/CNFGGLOB.h
 	$(CC) "src/OSGLUSD2.c" -o "bld/OSGLUSD2.o" $(mk_COptions)
@@ -80,22 +80,41 @@ ObjFiles = \
 	bld/SNDEMDEV.o \
 	bld/PROGMAIN.o \
 
-
 $(TARGET) : $(ObjFiles)
 	$(CC) \
-		-o "$(TARGET)" \
+		-r -o "$(TARGET)" \
 		$(ObjFiles) $(LIBS)
 
 clean :
 	rm -f $(ObjFiles)
 	rm -f "$(TARGET)"
+	rm -f $(basename $(TARGET)).html
+	rm -f $(basename $(TARGET)).js
+	rm -f $(basename $(TARGET)).js.orig.js
+	rm -f $(basename $(TARGET)).wasm
 
 html: $(TARGET)
 ifeq ($(PRELOAD), 1)
-	$(CC) -O3 -s USE_SDL=2 -s WASM=$(WASM) -s TOTAL_MEMORY=$(EMSCRIPTEN_TOTAL_MEMORY)  -s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1 \
-	-s EMTERPRETIFY_WHITELIST=@em.txt $(TARGET) \
-	--preload-file $(PREFILE) --profiling-funcs -o $(basename $(TARGET)).html 
+	$(CC) -O3 \
+	-s USE_SDL=2 \
+	-s WASM=$(WASM) \
+	-s TOTAL_MEMORY=$(EMSCRIPTEN_TOTAL_MEMORY) \
+	-s EMTERPRETIFY=1 \
+	-s EMTERPRETIFY_ASYNC=1 \
+	-s EMTERPRETIFY_WHITELIST=@em.txt \
+	$(TARGET) \
+	--preload-file $(PREFILE) \
+	--profiling-funcs \
+	-o $(basename $(TARGET)).html 
 else
-	$(CC) -O3 -s USE_SDL=2 -s WASM=$(WASM) -s TOTAL_MEMORY=$(EMSCRIPTEN_TOTAL_MEMORY)  -s EMTERPRETIFY=1 -s EMTERPRETIFY_ASYNC=1 \
-	-s EMTERPRETIFY_WHITELIST=@em.txt $(TARGET) --profiling-funcs -o $(basename $(TARGET)).html 
+	$(CC) -O3 \
+	-s USE_SDL=2 \
+	-s WASM=$(WASM) \
+	-s TOTAL_MEMORY=$(EMSCRIPTEN_TOTAL_MEMORY) \
+	-s EMTERPRETIFY=1 \
+	-s EMTERPRETIFY_ASYNC=1 \
+	-s EMTERPRETIFY_WHITELIST=@em.txt \
+	$(TARGET) \
+	--profiling-funcs \
+	-o $(basename $(TARGET)).html 
 endif
